@@ -8,6 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Collection;
+
 public class HomePage extends SentManager {
     private final String BASE_URL = "https://e.mail.ru/messages/inbox/?back=1";
 
@@ -69,6 +71,7 @@ public class HomePage extends SentManager {
     public void logOffLinkClick()  {
         logOffLink.click();
     }
+
 
     @Override
     public void openPage()

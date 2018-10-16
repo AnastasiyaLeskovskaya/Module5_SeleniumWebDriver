@@ -2,10 +2,7 @@ package selenium.steps;
 
 import org.openqa.selenium.WebDriver;
 import selenium.driver.DriverSingleton;
-import selenium.pages.DraftManager;
-import selenium.pages.SentManager;
-import selenium.pages.LoginPage;
-import selenium.pages.HomePage;
+import selenium.pages.*;
 
 public class Steps {
 
@@ -71,9 +68,15 @@ public class Steps {
     public boolean verifySentFolder(String  addresseeMail, String  subject, String text){
         SentManager sentManager = new SentManager(driver);
         sentManager.openPage();
-        System.out.println(driver.getCurrentUrl());
         sentManager.sentItemsClick();
         return sentManager.verifySentFolder(addresseeMail,subject,text);
+    }
+
+    public void checkInboxFolder(String  addresseeMail, String  subject){
+        InboxFolder inboxFolder  = new InboxFolder(driver);
+        inboxFolder.finderMail(addresseeMail, subject);
+
+
     }
 
     public void logOff(){

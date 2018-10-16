@@ -1,4 +1,4 @@
-package selenium;
+package selenium.tests;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

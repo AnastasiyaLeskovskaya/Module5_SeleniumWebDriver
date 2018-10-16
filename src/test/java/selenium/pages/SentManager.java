@@ -34,21 +34,19 @@ public class SentManager extends AbstractPage {
 
     public void sentItemsClick() {
         sentItems.click();
-        System.out.println("click");
     }
 
     public boolean verifySentFolder(String addresseeMail, String subject, String text) {
         Collection<WebElement> sentList = driver.findElements(By.xpath("//div[@class='b-datalist__item__info']"));
-        if (!sentList.isEmpty()){
+      //  if (!sentList.isEmpty()){
             for (WebElement element : sentList) {
-                System.out.println(element.findElement(By.xpath("//div[@class='b-datalist__item__subj']")).getText());
                 if ((element.findElement(By.xpath("//div[@class='b-datalist__item__subj']")).getText().equalsIgnoreCase(subject+text))
                         && (element.findElement(By.xpath("//div[@class='b-datalist__item__addr']")).getText().equalsIgnoreCase(addresseeMail))) {
                     element.click();
                     return true;
                 }
             }
-        }
+       // }
         return false;
     }
 }

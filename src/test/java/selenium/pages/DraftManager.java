@@ -14,6 +14,12 @@ public class DraftManager extends AbstractPage {
 
     private final String BASE_URL = "https://e.mail.ru/messages/drafts/";
 
+    @FindBy(xpath = "//div[@data-id='0:15396926720000000147:500001']//div[@class='js-item-checkbox b-datalist__item__cbx']")
+    private WebElement mailCheckbox;
+
+    @FindBy(xpath = "//div[@class='b-toolbar__item']//span[text()='Переместить']")
+    private WebElement moveButton;
+
     public DraftManager(WebDriver driver)
     {
         super(driver);
@@ -39,6 +45,14 @@ public class DraftManager extends AbstractPage {
         WebElement sendButton = driver.findElement(By.xpath("//div[@data-name='send']"));
         sendButton.click();
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='message-sent__title']")));
+    }
+
+    public void clickMail(){
+        mailCheckbox.click();
+    }
+
+    public void moveButtonClick(){
+        moveButton.click();
     }
 
     @Override
