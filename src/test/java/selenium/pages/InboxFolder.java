@@ -13,7 +13,7 @@ public class InboxFolder extends AbstractPage {
     private final String BASE_URL = "https://e.mail.ru/messages/sent/";
 
 
-    @FindBy(xpath = "//[@id='b-letters']//div[@class='b-datalist__item__addr']")
+    @FindBy(xpath = "//*[@id='b-letters']//div[@class='b-datalist__item__addr']")
     private WebElement mail;
 
 
