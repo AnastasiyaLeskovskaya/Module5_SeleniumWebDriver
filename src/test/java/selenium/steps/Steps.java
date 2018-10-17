@@ -1,7 +1,9 @@
 package selenium.steps;
 
 import org.openqa.selenium.WebDriver;
+import selenium.objects.Contact;
 import selenium.driver.DriverSingleton;
+import selenium.objects.User;
 import selenium.pages.*;
 
 public class Steps {
@@ -20,17 +22,16 @@ public class Steps {
         DriverSingleton.closeDriver();
     }
 
-    public void loginMailRu(String username, String password)
+    public void login(User user)
     {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.openPage();
-        loginPage.login(username, password);
+        loginPage.openPage().login(user);
     }
 
     public boolean isHomePageOpened(String mailAddress)
     {
-        LoginPage loginPage = new LoginPage(driver);
-        return loginPage.homePageStatus(mailAddress);
+        HomePage homePage = new HomePage(driver);
+        return homePage.homePageStatus(mailAddress);
     }
 
 
@@ -42,16 +43,6 @@ public class Steps {
         homePage.fillSubjectField(subject);
         homePage.fillFrame(text);
         homePage.saveButtonClick();
-//        WebDriverWait wait = new WebDriverWait(driver, 50);
-////       saveButton  = wait.until(ExpectedConditions.visibilityOf(saveButton));
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        //System.out.println(driver.getCurrentUrl());
     }
 
     public boolean verifyDraft(String  addresseeMail, String  subject, String text){
@@ -72,15 +63,34 @@ public class Steps {
         return sentManager.verifySentFolder(addresseeMail,subject,text);
     }
 
-    public void checkInboxFolder(String  addresseeMail, String  subject){
-        InboxFolder inboxFolder  = new InboxFolder(driver);
-        inboxFolder.finderMail(addresseeMail, subject);
-
-
-    }
-
     public void logOff(){
         HomePage homePage = new HomePage(driver);
         homePage.logOffLinkClick();
     }
+
+    public void fillAddContact(Contact contact){
+        HomePage homePage = new HomePage(driver);
+        ContactsPage contactsPage = homePage.contactsButtonClick();
+        AddContactsPage addContactsPage = contactsPage.addButtonClick();
+        addContactsPage.fillContactsFields(contact).saveButtonClick();
+    }
+
+    public boolean verifyContactInAllContactsFolder(Contact contact){
+        ContactsPage contactsPage = new ContactsPage(driver);
+        contactsPage.openPage();
+        contactsPage.goToAllContactFolder();
+        return contactsPage.verifyAllContactFolder(contact);
+    }
+
+    public void moveMailInSpam(){
+       InboxFolder inboxFolder = new InboxFolder(driver);
+       inboxFolder.openMail();
+       inboxFolder.spamButtonClick();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

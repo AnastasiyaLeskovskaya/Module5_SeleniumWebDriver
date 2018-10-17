@@ -5,8 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Collection;
 
@@ -26,10 +24,10 @@ public class SentManager extends AbstractPage {
     private WebElement waitFor;
 
     @Override
-    public void openPage()
+    public SentManager openPage()
     {
         driver.navigate().to(BASE_URL);
-        // logger.info("Login page opened");
+        return this;
     }
 
     public void sentItemsClick() {
@@ -38,7 +36,6 @@ public class SentManager extends AbstractPage {
 
     public boolean verifySentFolder(String addresseeMail, String subject, String text) {
         Collection<WebElement> sentList = driver.findElements(By.xpath("//div[@class='b-datalist__item__info']"));
-      //  if (!sentList.isEmpty()){
             for (WebElement element : sentList) {
                 if ((element.findElement(By.xpath("//div[@class='b-datalist__item__subj']")).getText().equalsIgnoreCase(subject+text))
                         && (element.findElement(By.xpath("//div[@class='b-datalist__item__addr']")).getText().equalsIgnoreCase(addresseeMail))) {
@@ -46,7 +43,6 @@ public class SentManager extends AbstractPage {
                     return true;
                 }
             }
-       // }
         return false;
     }
 }

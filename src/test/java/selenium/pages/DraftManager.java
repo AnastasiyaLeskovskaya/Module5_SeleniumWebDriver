@@ -47,18 +47,19 @@ public class DraftManager extends AbstractPage {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='message-sent__title']")));
     }
 
-    public void clickMail(){
-        mailCheckbox.click();
-    }
-
-    public void moveButtonClick(){
-        moveButton.click();
-    }
+//    public void clickMail(){
+//        mailCheckbox.click();
+//    }
+//
+//    public void moveButtonClick(){
+//        moveButton.click();
+//    }
 
     @Override
-    public void openPage()
+    public DraftManager openPage()
     {
         driver.navigate().to(BASE_URL);
+        return this;
     }
 
 

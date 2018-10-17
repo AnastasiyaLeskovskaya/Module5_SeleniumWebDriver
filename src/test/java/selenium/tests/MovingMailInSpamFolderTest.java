@@ -8,8 +8,10 @@ import selenium.objects.Mail;
 import selenium.objects.User;
 import selenium.steps.Steps;
 
+import java.util.Properties;
 
-public class MailRuAutomationTest {
+public class MovingMailInSpamFolderTest {
+
     private  Steps steps;
     private User user;
     private Mail mail;
@@ -27,6 +29,7 @@ public class MailRuAutomationTest {
     @Test
     public void isLoginSuccessful()
     {
+        User user = new User();
         steps.login(user);
         Assert.assertTrue(steps.isHomePageOpened(user.getMailAddress()), "Home page was not open");
     }
@@ -39,7 +42,6 @@ public class MailRuAutomationTest {
         Assert.assertTrue(steps.verifyDraft(mail.getAddressee_mail_field(),mail.getSubject(),mail.getText_field()), "The mail is not in the 'Drafts' folder.");
     }
 
-    //Send the mail. Verify, that the mail disappeared from ‘Drafts’ folder. Verify, that the mail is in ‘Sent’ folder.
     @Test(dependsOnMethods = "verifyDraftsFolder")
     public void verifySendingMail()
     {
@@ -48,9 +50,18 @@ public class MailRuAutomationTest {
         Assert.assertTrue(steps.verifySentFolder(mail.getAddressee_mail_field(),mail.getSubject(),mail.getText_field()), "The mail is  in the 'sent' folder.");
     }
 
+    @Test(dependsOnMethods = "verifyDraftsFolder")
+    public void verifySpamFolder()
+    {
+        steps.moveMailInSpam();
+//        steps.createMail(mail.getAddressee_mail_field(),mail.getSubject(),mail.getText_field());
+//        Assert.assertTrue(steps.verifyDraft(mail.getAddressee_mail_field(),mail.getSubject(),mail.getText_field()), "The mail is not in the 'Drafts' folder.");
+    }
+
     @AfterClass(description = "Stop Browser")
     public void stopBrowser()
     {
         steps.closeDriver();
     }
 }
+

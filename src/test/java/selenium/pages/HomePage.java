@@ -1,14 +1,9 @@
 package selenium.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.Collection;
 
 public class HomePage extends SentManager {
     private final String BASE_URL = "https://e.mail.ru/messages/inbox/?back=1";
@@ -37,45 +32,67 @@ public class HomePage extends SentManager {
     @FindBy(id ="PH_logoutLink")
     private WebElement logOffLink;
 
+    @FindBy(id = "PH_user-email")
+    private WebElement linkLoggedInUser;
+
+    @FindBy(xpath = "//span[@bem-id='105']//span")
+    private WebElement contactsButton;
+
     public HomePage(WebDriver driver)
     {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    public void writeMailButtonClick()  {
+    public DraftManager writeMailButtonClick()  {
         writeMailButton.click();
+        return new DraftManager(driver);
     }
 
-    public void fillAddresseeField(String  addresseeMail)  {
+    public HomePage fillAddresseeField(String  addresseeMail)  {
         addresseeField.sendKeys(addresseeMail);
+        return this;
     }
 
-    public void fillSubjectField(String  subject)  {
+    public HomePage fillSubjectField(String  subject)  {
         subjectField.sendKeys(subject);
+        return this;
     }
 
-    public void fillFrame(String  string)  {
+    public HomePage fillFrame(String  string)  {
         driver.switchTo().frame(iframeForTextField);
         bodyTextField.clear();
         bodyTextField.sendKeys(string);
         driver.switchTo().defaultContent();
+        return this;
     }
 
-    public void saveButtonClick()  {
+    public HomePage saveButtonClick()  {
         saveButton.click();
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOf(waitFor));
+//        WebDriverWait wait = new WebDriverWait(driver, 30);
+//        wait.until(ExpectedConditions.visibilityOf(waitFor));
+        waiterForElementVisible(waitFor);
+        return this;
     }
-
-    public void logOffLinkClick()  {
+    public boolean homePageStatus(String mailAddress){
+//        WebDriverWait wait = new WebDriverWait(driver, 30);
+//        wait.until(ExpectedConditions.visibilityOf(linkLoggedInUser));
+        waiterForElementVisible(linkLoggedInUser);
+        return mailAddress.equals(linkLoggedInUser.getText());
+    }
+    public LoginPage logOffLinkClick()  {
         logOffLink.click();
+        return new LoginPage(driver);
     }
 
-
+    public ContactsPage contactsButtonClick(){
+        contactsButton.click();
+        return new ContactsPage(driver);
+    }
     @Override
-    public void openPage()
+    public HomePage openPage()
     {
         driver.navigate().to(BASE_URL);
+        return this;
     }
 }
