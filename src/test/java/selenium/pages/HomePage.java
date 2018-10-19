@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class HomePage extends SentManager {
+public class HomePage extends SentPage {
     private final String BASE_URL = "https://e.mail.ru/messages/inbox/?back=1";
 
     @FindBy(xpath = "//span[@class = 'b-toolbar__btn__text b-toolbar__btn__text_pad']")
@@ -38,15 +38,22 @@ public class HomePage extends SentManager {
     @FindBy(xpath = "//span[@bem-id='105']//span")
     private WebElement contactsButton;
 
+    @FindBy(xpath = "//*[@id='b-toolbar__right']//span[text()='Отправить']")
+    private WebElement sendButton;
+
+    @FindBy(xpath = "//*[@id='b-nav_folders']//span[text()='Спам']")
+    private WebElement spamFolderButton;
+
+
     public HomePage(WebDriver driver)
     {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    public DraftManager writeMailButtonClick()  {
+    public DraftFolderPage writeMailButtonClick()  {
         writeMailButton.click();
-        return new DraftManager(driver);
+        return new DraftFolderPage(driver);
     }
 
     public HomePage fillAddresseeField(String  addresseeMail)  {
@@ -69,17 +76,16 @@ public class HomePage extends SentManager {
 
     public HomePage saveButtonClick()  {
         saveButton.click();
-//        WebDriverWait wait = new WebDriverWait(driver, 30);
-//        wait.until(ExpectedConditions.visibilityOf(waitFor));
         waiterForElementVisible(waitFor);
         return this;
     }
-    public boolean homePageStatus(String mailAddress){
-//        WebDriverWait wait = new WebDriverWait(driver, 30);
-//        wait.until(ExpectedConditions.visibilityOf(linkLoggedInUser));
+
+    public String homePageStatus(){
         waiterForElementVisible(linkLoggedInUser);
-        return mailAddress.equals(linkLoggedInUser.getText());
+        highlightElement(linkLoggedInUser);
+         return linkLoggedInUser.getText();
     }
+
     public LoginPage logOffLinkClick()  {
         logOffLink.click();
         return new LoginPage(driver);

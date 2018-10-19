@@ -1,0 +1,17 @@
+[Oo]bj
+[Bb]in
+*.user
+*.suo
+*.[Cc]ache
+*.bak
+*.ncb
+*.log 
+*.idea/
+
+target/
+.classpath
+.project
+.settings
+
+*.DS_Store
+[Tt]humbs.db

@@ -3,6 +3,7 @@ package selenium.objects;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
 public class User {
@@ -44,6 +45,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(mailAddress, user.mailAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password, mailAddress);
     }
 
     @Override

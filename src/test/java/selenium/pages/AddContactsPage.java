@@ -2,6 +2,7 @@ package selenium.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import selenium.objects.Contact;
@@ -25,9 +26,11 @@ public class AddContactsPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='addressbook__toolbar']//span[text()='Сохранить']")
     private WebElement saveButton;
 
-//    @FindBy(xpath = "//*[@id='leftcol__placeholder']//span[text()='Все контакты']")
-//    private WebElement allContactFolder;
 
+    public AddContactsPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(this.driver, this);
+    }
 
     public AddContactsPage fillContactsFields(Contact contact){
         firstnameField.sendKeys(contact.getFirstname());
@@ -37,19 +40,19 @@ public class AddContactsPage extends AbstractPage {
         return this;
     }
 
-    public AddContactsPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(this.driver, this);
+    public AddContactsPage fillContactsFieldsUsingKeyboard(Contact contact){
+        Actions actions = new Actions(driver);
+        actions.click(firstnameField).sendKeys(contact.getFirstname()).build().perform();
+        actions.sendKeys(lastnameField, contact.getLastName()).build().perform();
+        actions.sendKeys(emailField, contact.getEmail()).build().perform();
+        return this;
     }
 
-    public void saveButtonClick(){
+    public AddContactsPage saveButtonClick(){
         saveButton.click();
+        return this;
     }
 
-//    public ContactsPage goToAllContactFolder(){
-//        allContactFolder.click();
-//        return new ContactsPage(driver);
-//    }
 
 
     @Override

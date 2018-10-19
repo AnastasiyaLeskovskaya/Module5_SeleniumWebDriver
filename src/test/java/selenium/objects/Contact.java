@@ -3,6 +3,8 @@ package selenium.objects;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Date;
+import java.util.Objects;
 import java.util.Properties;
 
 public class Contact {
@@ -19,8 +21,8 @@ public class Contact {
         }catch (IOException e){
             System.out.println("Config file not found");
         }
-
-        this.firstname = properties.getProperty("FIRST_NAME");
+        Date date = new Date();
+        this.firstname = date.toString();
         this.lastName = properties.getProperty("LOGIN").substring(0, 11);
         this.companyName = properties.getProperty("SUBJECT_FIELD");
         this.email =  properties.getProperty("ADDRESSEE_MAIL_FIELD");
@@ -56,6 +58,22 @@ public class Contact {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(firstname, contact.firstname) &&
+                Objects.equals(lastName, contact.lastName) &&
+                Objects.equals(companyName, contact.companyName) &&
+                Objects.equals(email, contact.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstname, lastName, companyName, email);
     }
 
     @Override
